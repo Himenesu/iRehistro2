@@ -1,3 +1,4 @@
+<?php require_once "controllerUserData.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,16 +10,19 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>iRehistro | Admin</title>
+    <title>iRehistro | Admin - Tables</title>
 
-    <!-- Custom fonts for this template-->
+    <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom styles for this template-->
+    <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -35,7 +39,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">iRehistro | Admin <sup>2</sup></div>
             </a>
 
             <!-- Divider -->
@@ -110,8 +114,8 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Login Screens:</h6>
                         <a class="collapse-item" href="login.php">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                        <a class="collapse-item" href="register.php">Register</a>
+                        <a class="collapse-item" href="forgot-password.php">Forgot Password</a>
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Other Pages:</h6>
                         <a class="collapse-item" href="404.html">404 Page</a>
@@ -121,15 +125,15 @@
             </li>
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="charts.html">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Charts</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.php">
+            <li class="nav-item active">
+                <a class="nav-link" href="tables.html">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Tables</span></a>
             </li>
@@ -155,9 +159,11 @@
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
 
                     <!-- Topbar Search -->
                     <form
@@ -346,65 +352,121 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Charts</h1>
-                    <p class="mb-4">Chart.js is a third party plugin that is used to generate the charts in this theme.
-                        The charts below have been customized - for further customization options, please visit the <a
-                            target="_blank" href="https://www.chartjs.org/docs/latest/">official Chart.js
-                            documentation</a>.</p>
+                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
 
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <div class="col-xl-8 col-lg-7">
-
-                            <!-- Area Chart -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Area Chart</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
-                                    <hr>
-                                    Styling for the area chart can be found in the
-                                    <code>/js/demo/chart-area-demo.js</code> file.
-                                </div>
-                            </div>
-
-                            <!-- Bar Chart -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-bar">
-                                        <canvas id="myBarChart"></canvas>
-                                    </div>
-                                    <hr>
-                                    Styling for the bar chart can be found in the
-                                    <code>/js/demo/chart-bar-demo.js</code> file.
-                                </div>
-                            </div>
-
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">User's Data</h6>
                         </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
 
-                        <!-- Donut Chart -->
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Donut Chart</h6>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-pie pt-4">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <hr>
-                                    Styling for the donut chart can be found in the
-                                    <code>/js/demo/chart-pie-demo.js</code> file.
-                                </div>
+                            <?php 
+
+                                $con = mysqli_connect("localhost", "root","","userform2");
+
+                                $query = "SELECT * FROM usertable";
+                                $query_run = mysqli_query($con, $query);
+                                
+                            ?>
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>First Name</th>
+                                            <th>Middle Name</th>
+                                            <th>Last Name</th>
+                                            <th>Email</th>
+                                            <th>Gender</th>
+                                            <th>Birthdate</th>
+                                            <th>Birthplace</th>               
+                                            <th>Civil</th>
+                                            <th>Citizenship</th>
+                                            <th>City</th>
+                                            <th>Barangay</th>
+                                            <th>Address</th>
+                                            <th>Years living in the City</th>
+                                            <th>Years living in the Country</th>
+                                            <th>Usertype</th>  
+                                            <th>EDIT</th>
+                                            <th>DELETE</th>        
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>First Name</th>
+                                            <th>Middle Name</th>
+                                            <th>Last Name</th>
+                                            <th>Email</th>
+                                            <th>Gender</th>
+                                            <th>Birthdate</th>
+                                            <th>Birthplace</th>
+                                            <th>Civil</th>
+                                            <th>Citizenship</th>
+                                            <th>City</th>
+                                            <th>Barangay</th>
+                                            <th>Address</th>
+                                            <th>Years living in the City</th>
+                                            <th>Years living in the Country</th>
+                                            <th>Usertype</th>
+                                            <th>EDIT</th>
+                                            <th>DELETE</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+
+                                        <?php 
+                                        if(mysqli_num_rows($query_run) > 0)
+                                        {
+                                            while($row = mysqli_fetch_assoc($query_run))
+                                            {
+                                                ?>
+                                        <tr>
+
+                                            <td><?php echo $row['id']; ?></td>
+                                            <td><?php echo $row['firstname' ]; ?></td>
+                                            <td><?php echo $row['midname' ]; ?></td>
+                                            <td><?php echo $row['lastname' ]; ?></td>
+                                            <td><?php echo $row['email']; ?></td>
+                                            <td><?php echo $row['gender']; ?></td>
+                                            <td><?php echo $row['birthdate']; ?></td>
+                                            <td><?php echo $row['birthplace']; ?></td>
+                                            <td><?php echo $row['civil']; ?></td>
+                                            <td><?php echo $row['citizen']; ?></td>
+                                            <td><?php echo $row['city']; ?></td>
+                                            <td><?php echo $row['brgy']; ?></td>
+                                            <td><?php echo $row['address']; ?></td>
+                                            <td><?php echo $row['city_years_months_number']; ?></td>
+                                            <td><?php echo $row['country_years_number']; ?></td>
+                                            <td><?php echo $row['usertype']; ?></td>
+                                            <td>
+                                                <form action="info.php" method="POST">
+                                                    <input type="hidden" name="edit" value="<?php echo $row['id']; ?>">
+                                                    <button type="submit" name="editbtn" class="btn btn-success"> EDIT </button> 
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form action="controllerUserData.php" method="POST">
+                                                    <input type="hidden" name="delete" value="<?php echo $row['id']; ?>">
+                                                <button type="submit" name="deletebtn" class="btn btn-danger"> DELETE </button> 
+                                            </td>
+
+                                        </tr>
+
+                                        <?php
+                                                                                             
+                                            }
+
+                                        }
+                                        else{
+                                            echo "No Record Found";
+                                        }
+                                        ?>
+                                       
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -467,12 +529,11 @@
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
-    <script src="js/demo/chart-bar-demo.js"></script>
+    <script src="js/demo/datatables-demo.js"></script>
 
 </body>
 
